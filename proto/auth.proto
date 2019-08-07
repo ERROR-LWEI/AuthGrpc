@@ -1,0 +1,89 @@
+import "google/protobuf/any.proto";
+syntax = "proto3";
+
+package auth;
+
+service AuthService {
+    // 注册
+    rpc Sigin(RequestAccount) returns (ResponseAccount) {}
+    // 账号信息编辑
+    rpc EditAccount(RequestAccount) returns (ResponseAccount) {}
+    //  登录
+    rpc Login(RequestAccount) returns (ResponseAccount) {}
+    // 获取用户信息
+    rpc GetUserMessage(RequestUser) returns (ResponseUser) {}
+    //  编辑用户信息
+    rpc EditUserMessage(RequestUser) returns (ResponseUser) {}
+    //  全量用户信息查找
+    rpc GetUserMessages(RequestUser) returns (ResponseUsers) {}
+}
+
+// 状态消息
+message RequestAccount {
+    string account = 2;
+    optional string id = 1;
+    optional string password = 3;
+    optional int32 del = 4;
+    optional string terrace = 5;
+    optional string terraceId = 6;
+}
+
+message ResponseAccount {
+    int32 code = 1;
+    string type = 2;
+    string message = 3;
+    optional Account data = 4;
+}
+
+message RequestUser {
+    optional string id = 1;
+    repeated string ids = 2;
+    optional string accountId = 3;
+    repeated string accountIds = 4;
+    optional string name = 5;
+    repeated string names = 6;
+    optional string label = 7;
+    repeated string labels = 8;
+    optional string info = 9;
+    optional string avatar = 10;
+    optional string del = 11;
+}
+
+message ResponseUser {
+    int32 code = 1;
+    string type = 2;
+    string message = 3;
+    optional User data = 4;
+}
+
+message ResponseUsers {
+    int32 code = 1;
+    string type = 2;
+    string message = 3;
+    repeated User data = 4;
+}
+
+// 用户信息体
+message User {
+    string id = 1;
+    optional string name = 2;
+    optional string label = 3;
+    optional string info = 4;
+    optional string avatar = 5;
+    optional string accountId = 6;
+    optional string del = 7;
+    optional string createDate = 8;
+    optional string updateDate = 9;
+}
+
+// 账号信息
+message Account {
+    string id = 1;
+    string account = 2;
+    optional string password = 3;
+    optional string createDate = 4;
+    optional string updateDate = 5;
+    optional string del = 6;
+    optional string terrace = 7;
+    optional string terraceId = 8;
+}
