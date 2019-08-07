@@ -5,7 +5,7 @@ package auth;
 
 service AuthService {
     // 注册
-    rpc Sigin(RequestAccount) returns (ResponseAccount) {}
+    rpc InsertAccount(RequestAccount) returns (ResponseAccount) {}
     // 账号信息编辑
     rpc EditAccount(RequestAccount) returns (ResponseAccount) {}
     //  登录
