@@ -78,7 +78,7 @@ message User {
 
 // 账号信息
 message Account {
-    string id = 1;
+    int32 id = 1;
     string account = 2;
     optional string password = 3;
     optional string createDate = 4;
@@ -86,4 +86,30 @@ message Account {
     optional string del = 6;
     optional string terrace = 7;
     optional string terraceId = 8;
+    optional int32 role = 9;
+}
+
+/* 角色 */
+message Roles {
+    int32 id = 1;
+    optional string value = 2;
+    optional string name = 3;
+    optional string del = 4;
+    optional string createDate = 5;
+    optional string updateDate = 6;
+    repeated Permissions permissions = 7;
+    optional string createDate = 8;
+    optional string updateDate = 9;
+}
+
+/* 权限信息 */
+message Permissions {
+    int32 id = 1;
+    optional string value = 2;
+    optional string name = 3;
+    optional string parentId = 4;
+    repeated Roles roles = 5;
+    optional string createDate = 6;
+    optional string uodateDate = 7;
+    optional string del = 8;
 }

@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { Account } from '../entity/account.entity';
 import { User } from '../entity/user.entity';
 import { ErrorStatus } from '../enumeration/status'
+import { Role } from '../entity/role.entity';
 
 @Injectable()
 export class AuthService {
@@ -15,6 +16,10 @@ export class AuthService {
         private readonly user: Repository<User>
     ) {}
 
+    /**
+     * 账户插入
+     * @param data 
+     */
     async Insert(data: Account): Promise<Account> {
         try {
             const { account, password, terrace, terraceId } = data;
@@ -40,6 +45,38 @@ export class AuthService {
             });
         } catch (e) {
             throw new RpcException({ code: ErrorStatus.apperror, message: JSON.stringify(e) });
+        }
+    }
+
+    async findOneAccount(data: Account): Promise<Account> {
+        try {
+            return await this.account.findOne(data)
+        } catch (e) {
+            throw new RpcException({ code: ErrorStatus.apperror, message: JSON.stringify(e) });
+        }
+    }
+
+    /**
+     * 用户权限
+     * @param data 
+     */
+    async findAccountRole(data: Account): Promise<Account> {
+        try {
+            return await this.account.createQueryBuilder('account')
+            .select('account.role', 'account')
+            .where('account.accout = :account OR account.id = :id', { account: data.account, id: data.id })
+            .getOne();
+        } catch (e) {
+            throw new RpcException({ code: ErrorStatus.apperror, message: JSON.stringify(e) })
+        }
+    }
+
+    async updateOneAccount(data: Account) {
+        try {
+            const { id, ...params } = data;
+            return await this.account.update({ id }, params);
+        } catch (e) {
+            throw new RpcException({ code: ErrorStatus.apperror, message: JSON.stringify(e) })
         }
     }
 }
