@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
-import { RoleModule } from './role/role.module';
 
 const { DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, DB_PASSWORD } = process.env;
 
@@ -18,7 +17,6 @@ const { DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, DB_PASSWORD } = process.env;
       synchronize: true,
     }),
     AuthModule,
-    RoleModule
   ],
 })
 export class AppModule {}

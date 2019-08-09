@@ -1,5 +1,4 @@
-import { Entity, Column, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn, OneToOne } from "typeorm";
-import { Role } from "./role.entity";
+import { Entity, Column, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn } from "typeorm";
 
 /*
  * @Author: wei.liu 
@@ -50,10 +49,6 @@ export class Account {
      */
     @Column({ type: 'varchar', nullable: true })
     terraceId: string
-
-    @OneToOne(() => Role, usertype => usertype.id)
-    @Column({ type: 'bigint', nullable: false })
-    role: BigInt
 
     /**
      * 注册时间

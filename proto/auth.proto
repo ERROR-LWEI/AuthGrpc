@@ -4,6 +4,8 @@ syntax = "proto3";
 package auth;
 
 service AuthService {
+
+    // 用户权限服务
     // 注册
     rpc InsertAccount(RequestAccount) returns (ResponseAccount) {}
     // 账号信息编辑
@@ -17,6 +19,8 @@ service AuthService {
     //  全量用户信息查找
     rpc GetUserMessages(RequestUser) returns (ResponseUsers) {}
 }
+
+// 账号
 
 // 状态消息
 message RequestAccount {
@@ -95,8 +99,6 @@ message Roles {
     optional string value = 2;
     optional string name = 3;
     optional string del = 4;
-    optional string createDate = 5;
-    optional string updateDate = 6;
     repeated Permissions permissions = 7;
     optional string createDate = 8;
     optional string updateDate = 9;
@@ -110,6 +112,6 @@ message Permissions {
     optional string parentId = 4;
     repeated Roles roles = 5;
     optional string createDate = 6;
-    optional string uodateDate = 7;
+    optional string updateDate = 7;
     optional string del = 8;
 }

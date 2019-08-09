@@ -4,8 +4,8 @@ import { RpcException } from '@nestjs/microservices';
 import { Repository } from 'typeorm';
 import { Account } from '../entity/account.entity';
 import { User } from '../entity/user.entity';
-import { ErrorStatus } from '../enumeration/status'
-import { Role } from '../entity/role.entity';
+import { Status, Type } from '../enumeration/status'
+import { AccountDto } from './dto/account.dto';
 
 @Injectable()
 export class AuthService {
@@ -20,14 +20,14 @@ export class AuthService {
      * 账户插入
      * @param data 
      */
-    async Insert(data: Account): Promise<Account> {
+    async Insert(data: AccountDto): Promise<Account> {
         try {
             const { account, password, terrace, terraceId } = data;
             const accountDOC = new Account();
             const userDOC = new User();
             const tempAccount = await this.account.findOne(data);
             if (tempAccount) {
-                throw new RpcException({ code: ErrorStatus.apperror, message: "账号已存在" });
+                throw new RpcException({ code: Status.normalERROR, type: Type.normalErr, message: "账号已存在" });
             };
             accountDOC.account = account;
             accountDOC.password = password;
@@ -44,39 +44,24 @@ export class AuthService {
                 return null
             });
         } catch (e) {
-            throw new RpcException({ code: ErrorStatus.apperror, message: JSON.stringify(e) });
+            throw new RpcException({ code: Status.normalERROR, type: Type.normalErr, message: JSON.stringify(e) });
         }
     }
 
-    async findOneAccount(data: Account): Promise<Account> {
+    async findOneAccount(data: AccountDto): Promise<Account> {
         try {
             return await this.account.findOne(data)
         } catch (e) {
-            throw new RpcException({ code: ErrorStatus.apperror, message: JSON.stringify(e) });
+            throw new RpcException({ code: Status.normalERROR, type: Type.normalErr, message: JSON.stringify(e) });
         }
     }
 
-    /**
-     * 用户权限
-     * @param data 
-     */
-    async findAccountRole(data: Account): Promise<Account> {
-        try {
-            return await this.account.createQueryBuilder('account')
-            .select('account.role', 'account')
-            .where('account.accout = :account OR account.id = :id', { account: data.account, id: data.id })
-            .getOne();
-        } catch (e) {
-            throw new RpcException({ code: ErrorStatus.apperror, message: JSON.stringify(e) })
-        }
-    }
-
-    async updateOneAccount(data: Account) {
+    async updateOneAccount(data: AccountDto) {
         try {
             const { id, ...params } = data;
             return await this.account.update({ id }, params);
         } catch (e) {
-            throw new RpcException({ code: ErrorStatus.apperror, message: JSON.stringify(e) })
+            throw new RpcException({ code: Status.normalERROR, type: Status.normalERROR, message: JSON.stringify(e) })
         }
     }
 }
