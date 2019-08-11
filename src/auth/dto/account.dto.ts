@@ -7,7 +7,6 @@ export class AccountDto {
 
     @IsString()
     @IsEmail()
-    @IsPhoneNumber()
     @IsOptional()
     account?: string;
 
@@ -25,11 +24,11 @@ export class AccountDto {
 
     @IsDateString()
     @IsOptional()
-    createDate: string;
+    createDate: DateConstructor;
 
     @IsDateString()
     @IsOptional()
-    updateDate: string;
+    updateDate: DateConstructor;
 
     @IsString()
     @IsOptional()

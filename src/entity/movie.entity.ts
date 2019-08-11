@@ -11,7 +11,7 @@ export class Movie {
      * @type string
      * @memberof Movie
      */
-    @Column({ type: 'varchar', default: '' })
+    @Column({ type: 'varchar', length: '100', nullable: false })
     name: string
 
     /**
@@ -19,7 +19,7 @@ export class Movie {
      * @type string
      * @memberof Movie
      */
-    @Column({ type: 'varchar', default: ''})
+    @Column({ type: 'varchar', length: '100', nullable: true })
     name_en: string
 
     /**

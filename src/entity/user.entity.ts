@@ -1,6 +1,7 @@
-import { Entity, Column, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn, OneToOne, OneToMany, JoinTable, ManyToMany } from "typeorm";
+import { Entity, Column, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn, OneToOne, OneToMany, JoinTable, ManyToMany, JoinColumn } from "typeorm";
 import { Account } from './account.entity';
 import { Movie } from './movie.entity';
+import { Label } from './label.entity';
 
 
 @Entity()
@@ -10,16 +11,19 @@ export class User {
     id: BigInt // 主键
 
     @OneToOne(type => Account, account => account.id)
-    @Column({ type: 'bigint' })
+    @JoinColumn()
     accountId: BigInt
 
-    @Column({ type:'varchar', default: '' })
+    @Column({ type:'varchar', length: '80', default: '' })
     name: string // 名称
 
-    @Column({type: 'varchar', default: ''})
-    label: string // 标签
+    @OneToMany(type => Label, meta => meta.users, {
+        cascade: true
+    })
+    @JoinTable()
+    labels: Label[] // 标签
 
-    @Column({type: 'varchar', default: ''})
+    @Column({type: 'varchar', length: '1000', default: ''})
     info: string // 简介
 
     @Column({type: 'varchar', default: ''})
@@ -28,6 +32,7 @@ export class User {
     @ManyToMany (() => Movie, (movie: Movie) => movie.vindicator, {
         cascade: true
     })
+    @JoinTable()
     movies: Movie[];
 
     @CreateDateColumn()

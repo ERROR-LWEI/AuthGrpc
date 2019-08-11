@@ -7,29 +7,14 @@ service AuthService {
 
     // 用户权限服务
     // 注册
-    rpc InsertAccount(RequestAccount) returns (ResponseAccount) {}
-    // 账号信息编辑
-    rpc EditAccount(RequestAccount) returns (ResponseAccount) {}
-    //  登录
-    rpc Login(RequestAccount) returns (ResponseAccount) {}
-    // 获取用户信息
-    rpc GetUserMessage(RequestUser) returns (ResponseUser) {}
-    //  编辑用户信息
-    rpc EditUserMessage(RequestUser) returns (ResponseUser) {}
-    //  全量用户信息查找
-    rpc GetUserMessages(RequestUser) returns (ResponseUsers) {}
-}
+    rpc InsertAccount(Account) returns (ResponseAccount) {}
+    rpc FindOneAccount(Account) returns (ResponseAccount) {}
+    rpc UpdateOneAccount (Account) returns (ResponseAccount) {}
 
-// 账号
-
-// 状态消息
-message RequestAccount {
-    string account = 2;
-    optional string id = 1;
-    optional string password = 3;
-    optional int32 del = 4;
-    optional string terrace = 5;
-    optional string terraceId = 6;
+    // 用户信息
+    rpc FindOneUser(User) returns (ResponseUser) {}
+    rpc FindUsers(User) returns (ResponseUser) {}
+    rpc UpdateUser(User) returns (ResponseUser) {}
 }
 
 message ResponseAccount {
@@ -39,7 +24,7 @@ message ResponseAccount {
     optional Account data = 4;
 }
 
-message RequestUser {
+message User {
     optional string id = 1;
     repeated string ids = 2;
     optional string accountId = 3;
@@ -58,26 +43,14 @@ message ResponseUser {
     string type = 2;
     string message = 3;
     optional User data = 4;
+    repeated User list = 5;
+    optional Page page = 6;
 }
 
-message ResponseUsers {
-    int32 code = 1;
-    string type = 2;
-    string message = 3;
-    repeated User data = 4;
-}
-
-// 用户信息体
-message User {
-    string id = 1;
-    optional string name = 2;
-    optional string label = 3;
-    optional string info = 4;
-    optional string avatar = 5;
-    optional string accountId = 6;
-    optional string del = 7;
-    optional string createDate = 8;
-    optional string updateDate = 9;
+message Page {
+    int32 page = 1;
+    int32 pageSize = 2;
+    int32 count = 3;
 }
 
 // 账号信息
@@ -90,28 +63,4 @@ message Account {
     optional string del = 6;
     optional string terrace = 7;
     optional string terraceId = 8;
-    optional int32 role = 9;
-}
-
-/* 角色 */
-message Roles {
-    int32 id = 1;
-    optional string value = 2;
-    optional string name = 3;
-    optional string del = 4;
-    repeated Permissions permissions = 7;
-    optional string createDate = 8;
-    optional string updateDate = 9;
-}
-
-/* 权限信息 */
-message Permissions {
-    int32 id = 1;
-    optional string value = 2;
-    optional string name = 3;
-    optional string parentId = 4;
-    repeated Roles roles = 5;
-    optional string createDate = 6;
-    optional string updateDate = 7;
-    optional string del = 8;
 }
