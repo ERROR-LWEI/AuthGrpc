@@ -27,7 +27,7 @@ export class AuthService {
             const userDOC = new User();
             const tempAccount = await this.account.findOne(data);
             if (tempAccount) {
-                throw new RpcException({ code: Status.normalERROR, type: Type.normalErr, message: "账号已存在" });
+                throw new RpcException('账号存在');
             };
             accountDOC.account = account;
             accountDOC.password = password;
