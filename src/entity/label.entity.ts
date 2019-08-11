@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany, JoinColumn, JoinTable } from 'typeorm';
 import { User } from './user.entity';
 
 @Entity()
@@ -25,6 +25,6 @@ export class Label {
     del: string;
 
     @OneToMany(type => User, user => user.labels)
-    @JoinColumn()
+    @JoinTable()
     users: User[]
 }
