@@ -32,8 +32,7 @@ async function bootstrap() {
   const app = await NestFactory.createMicroservice(AppModule, AuthGrpcConnect);
   app.useGlobalFilters(new AllExceptions())
   app.useGlobalInterceptors(new ResIntercept<any>());
-  await app.listen(() => {
-    Logger.log('服务启动成功')
-  });
+  await app.listenAsync();
+  Logger.log('服务启动成功')
 }
 bootstrap();
