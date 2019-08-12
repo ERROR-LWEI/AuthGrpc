@@ -15,6 +15,35 @@ service AuthService {
     rpc FindOneUser(User) returns (ResponseUser) {}
     rpc FindUsers(User) returns (ResponseUser) {}
     rpc UpdateUser(User) returns (ResponseUser) {}
+
+    // 用户基础数据维护
+    rpc InsertMeta(Meta) returns (ResponseMeta) {}
+    rpc FindOneMeta(Meta) returns (ResponseMeta) {}
+    rpc FindMetas(Meta) returns (ResponseMeta) {}
+    rpc FindOrMetas(Meta) returns (ResponseMeta) {}
+}
+
+message Meta {
+    int32 id = 1;
+    repeated int32 ids = 2;
+    optional string name = 3;
+    optional string value = 4;
+    optional int32 parentId = 5;
+    optional string del = 6;
+    optional string createDate = 7;
+    optional string updateDate = 8;
+    repeated User users = 9;
+    optional int32 page = 10;
+    optional int32 pageSize = 11;
+}
+
+message ResponseMeta {
+    int32 code = 1;
+    string type =2;
+    string message = 3;
+    optional Meta data = 4;
+    repeated Meta list = 5;
+    optional Page page = 6;
 }
 
 message ResponseAccount {
