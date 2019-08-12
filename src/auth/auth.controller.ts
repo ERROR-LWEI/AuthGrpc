@@ -11,17 +11,20 @@ export class AuthController {
     ){}
 
     @GrpcMethod('AuthService', 'InsertAccount')
-    async insertAccount(data: AccountDto, metadata: any): Promise<Account> {
-        return await this.authservice.Insert(data);
+    async insertAccount(data: AccountDto, metadata: any): Promise<any> {
+        const res = await this.authservice.Insert(data);
+        return { data: res }
     }
 
     @GrpcMethod('AuthService', 'FindOneAccount')
     async findOneAccount(data: AccountDto, metadata: any) {
-        return await this.authservice.findOneAccount(data);
+        const res = await this.authservice.findOneAccount(data);
+        return { data: res }
     }
 
     @GrpcMethod('AuthService', 'UpdateOneAccount')
     async updateOneAccount(data: AccountDto, metadata: any) {
-        return await this.authservice.updateOneAccount(data);
+        const res = await this.authservice.updateOneAccount(data);
+        return { data: res }
     }
 }

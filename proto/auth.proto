@@ -61,7 +61,7 @@ message User {
     optional string name = 5;
     repeated string names = 6;
     optional string label = 7;
-    repeated string labels = 8;
+    repeated Meta labels = 8;
     optional string info = 9;
     optional string avatar = 10;
     optional string del = 11;

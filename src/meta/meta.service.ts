@@ -20,8 +20,8 @@ export class MetaService {
      */
     async InsertLabel(data: LableDto): Promise<Label> {
         try {
-            const hasLabel = await this.findOrLabel(data);
-            if (hasLabel) {
+            const labels = await this.findOrLabel(data);
+            if (labels) {
                 throw new RpcException('已存在该标签值不能重复插入')
             }
             const doc = new Label();
@@ -44,12 +44,19 @@ export class MetaService {
     async findLabels(data: LableDto): Promise<any> {
         try {
             const { page, pageSize } = data;
-            return await this.label.createQueryBuilder('label')
-            .select('*')
-            .where('label.name = :name OR label.value = :value', { name: data.name, value: data.value })
+            const res = await this.label.createQueryBuilder('label')
             .limit(pageSize)
-            .offset(page * pageSize)
+            .offset((page - 1) * pageSize)
             .getManyAndCount()
+
+            return {
+                list: res[0],
+                page: {
+                    page,
+                    pageSize,
+                    count: res[1],
+                }
+            }
         } catch (error) {
             throw new RpcException({ code: Status.normalERROR, type: Type.normalErr, message: JSON.stringify(error) });
         }
@@ -58,7 +65,6 @@ export class MetaService {
     async findOrLabel(data: LableDto): Promise<Label> {
         try {
             return await this.label.createQueryBuilder('label')
-            .select('*')
             .where('label.name = :name OR label.value = :value', { name: data.name, value: data.value })
             .getOne()
         } catch (error) {

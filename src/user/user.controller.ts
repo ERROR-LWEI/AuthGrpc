@@ -11,16 +11,19 @@ export class UserController {
 
     @GrpcMethod('AuthService', 'FindOneUser')
     async findOneUser(data: UserDto, metadata: any) {
-        return await this.user.findOneUser(data);
+        const res = await this.user.findOneUser(data);
+        return { data: res }
     }
 
     @GrpcMethod('AuthService', 'FindUsers')
     async findUsers(data: UserDto, metadata: any) {
-        return await this.user.findUsers(data);
+        const res = await this.user.findUsers(data);
+        return { data: res }
     }
 
     @GrpcMethod('AuthService', 'UpdateUser')
     async updateUser(data: UserDto, metadata: any) {
-        return await this.user.updateUser(data);
+        const res = await this.user.findUsers(data);
+        return { data: res }
     }
 }
