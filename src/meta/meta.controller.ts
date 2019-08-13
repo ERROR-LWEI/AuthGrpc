@@ -11,25 +11,21 @@ export class MetaController {
 
     @GrpcMethod('AuthService', 'InsertMeta')
     async inserMeta(data: LableDto) {
-        const res = await this.metaservice.InsertLabel(data);
-        return { data: res }
+        return await this.metaservice.InsertLabel(data);
     }
 
     @GrpcMethod('AuthService', 'FindOneMeta')
     async findOneMeta(data: LableDto) {
-        const res = await this.metaservice.findOneLabel(data);
-        return { data: res }
+        return await this.metaservice.findOneLabel(data);
     }
 
     @GrpcMethod('AuthService', 'FindMetas')
     async findMetas(data: LableDto, metadata: any) {
-        const _data = await this.metaservice.findLabels(data);
-        return _data;
+        return await this.metaservice.findLabels(data);
     }
 
     @GrpcMethod('AuthService', 'FindOrMetas')
     async FindOrMetas(data: LableDto, metadata: any) {
-        const res = await this.metaservice.findOrLabel(data);
-        return { data: res }
+        return await this.metaservice.findOrLabel(data);
     }
 }

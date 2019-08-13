@@ -41,16 +41,14 @@ message ResponseMeta {
     int32 code = 1;
     string type =2;
     string message = 3;
-    optional Meta data = 4;
-    repeated Meta list = 5;
-    optional Page page = 6;
+    optional string data = 4;
 }
 
 message ResponseAccount {
     int32 code = 1;
     string type = 2;
     string message = 3;
-    optional Account data = 4;
+    optional string data = 4;
 }
 
 message User {
@@ -71,15 +69,7 @@ message ResponseUser {
     int32 code = 1;
     string type = 2;
     string message = 3;
-    optional User data = 4;
-    repeated User list = 5;
-    optional Page page = 6;
-}
-
-message Page {
-    int32 page = 1;
-    int32 pageSize = 2;
-    int32 count = 3;
+    optional string data = 4;
 }
 
 // 账号信息

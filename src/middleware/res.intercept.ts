@@ -7,7 +7,16 @@ export interface Response<T> {
     code: number;
     type: string;
     message: string;
-    data?: T
+    data?: T;
+}
+
+export class Response<T> implements Response<T> {
+    constructor(code, type, message, data) {
+        this.code = code;
+        this.type = type;
+        this.message = message;
+        this.data = data;
+    }
 }
 
 @Injectable()
@@ -17,8 +26,9 @@ export default class ResIntercept<T> implements NestInterceptor<T, Response<T>> 
     }
 
     intercept(context: ExecutionContext, next: CallHandler): Observable<Response<T>> {
-        return next.handle().pipe(map(data => {
-            return { code: Status.normalOk, type: Type.normalOk, message: this.msg, ...data }
+        return next.handle().pipe(map((data) => {
+            return new Response<T>(Status.normalOk, Type.normalOk, this.msg, JSON.stringify(data));
+            //return { code: Status.normalOk, type: Type.normalOk, message: this.msg, data: JSON.stringify(data) }
         }));
     }
 }

@@ -51,4 +51,12 @@ export class UserDto {
     @IsString()
     @IsOptional()
     del: string;
+
+    @IsNumber()
+    @IsOptional()
+    page?: number;
+
+    @IsNumber()
+    @IsOptional()
+    pageSize?: number;
 }

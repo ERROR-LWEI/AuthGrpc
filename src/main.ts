@@ -31,7 +31,7 @@ async function bootstrap() {
   await initPm2();
   const app = await NestFactory.createMicroservice(AppModule, AuthGrpcConnect);
   app.useGlobalFilters(new AllExceptions())
-  app.useGlobalInterceptors(new ResIntercept<any>());
+  app.useGlobalInterceptors(new ResIntercept<string>());
   await app.listenAsync();
   Logger.log('服务启动成功')
 }

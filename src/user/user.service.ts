@@ -6,6 +6,8 @@ import { User } from '../entity/user.entity';
 import { UserDto } from './dto/user.dto';
 import { Status, Type } from '../enumeration/status'
 import { RpcException } from '@nestjs/microservices';
+import { Page } from '../vo/Page.vo';
+import { List } from '../vo/List.vo';
 
 @Injectable()
 export class UserService {
@@ -25,13 +27,26 @@ export class UserService {
         }
     }
 
-    async findUsers(data: UserDto): Promise<User[]> {
+    async findUsers(data: UserDto): Promise<any> {
         try {
-            const { ids, accountIds, labels, movies, ...params } = data;
-            if (ids || accountIds) {
-                return await this.user.findByIds(ids || accountIds);
+            const { ids, accountIds, labels, movies, page, pageSize, ...params } = data;
+            const query = this.user.createQueryBuilder();
+
+            if (ids) {
+                query.where('id In (:ids)', { ids: ids.join(',') });
             }
-            return await this.user.find(params);
+
+            if (accountIds) {
+                query.where('accountIds In (:accountIds)', { accountIds: accountIds.join(',') });
+            }
+
+            if (page && pageSize) {
+                const _page = new Page().setPage(page).setPageSize(pageSize);
+                const [ list, count ] = await query.limit(pageSize).offset((page - 1) * pageSize).getManyAndCount();
+                _page.setCount(count);
+                return new List<User, Page>().setList(list).setPage(_page);
+            }
+            return await query.getMany();
         } catch (error) {
             throw new RpcException({ code: Status.normalERROR, type: Type.normalErr, message: JSON.stringify(error) });
         }

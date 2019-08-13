@@ -5,6 +5,8 @@ import { Repository } from 'typeorm';
 import { RpcException } from '@nestjs/microservices';
 import { Status, Type } from '../enumeration/status';
 import { LableDto } from './dto/label.dto';
+import { Page } from '../vo/Page.vo';
+import { List } from '../vo/List.vo';
 
 @Injectable()
 export class MetaService {
@@ -44,19 +46,13 @@ export class MetaService {
     async findLabels(data: LableDto): Promise<any> {
         try {
             const { page, pageSize } = data;
-            const res = await this.label.createQueryBuilder('label')
+            const _page = new Page().setPage(page).setPageSize(pageSize);
+            const [ list, count ] = await this.label.createQueryBuilder('label')
             .limit(pageSize)
             .offset((page - 1) * pageSize)
             .getManyAndCount()
-
-            return {
-                list: res[0],
-                page: {
-                    page,
-                    pageSize,
-                    count: res[1],
-                }
-            }
+            _page.setCount(count);
+            return new List<Label, Page>().setList(list).setPage(_page);
         } catch (error) {
             throw new RpcException({ code: Status.normalERROR, type: Type.normalErr, message: JSON.stringify(error) });
         }
