@@ -7,6 +7,9 @@ const AuthGrpcConnect: ClientOptions = {
         url: '0.0.0.0:6661',
         package: 'auth',
         protoPath: join(__dirname, '../../proto/auth.proto'),
+        loader: {
+            objects: true
+        }
     }
 }
 

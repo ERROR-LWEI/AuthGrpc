@@ -1,0 +1,10 @@
+version: '2.1'
+
+services:
+  authgrpc1:
+    image: authgrpc
+    build: .
+    environment:
+      NODE_ENV: production
+    ports:
+      - 6661:6661
