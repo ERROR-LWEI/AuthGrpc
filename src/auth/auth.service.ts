@@ -6,6 +6,7 @@ import { Account } from '../entity/account.entity';
 import { User } from '../entity/user.entity';
 import { Status, Type } from '../enumeration/status'
 import { AccountDto } from './dto/account.dto';
+import { Data } from '../vo/Data.vo';
 
 @Injectable()
 export class AuthService {
@@ -25,6 +26,7 @@ export class AuthService {
             const { account, password, terrace, terraceId } = data;
             const accountDOC = new Account();
             const userDOC = new User();
+            const AccountData = new Data<Account>();
             const tempAccount = await this.account.findOne(data);
             if (tempAccount) {
                 throw new RpcException('账号存在');
@@ -39,7 +41,7 @@ export class AuthService {
                 userDOC.name = `用户_${accountDOC.id}`;
                 userDOC.info = '';
                 await transactionalEntityManager.save<User>(userDOC);
-                return saveAccount
+                return AccountData.setData(saveAccount);
             }).then(res => res).catch(e => {
                 return null
             });
@@ -48,18 +50,22 @@ export class AuthService {
         }
     }
 
-    async findOneAccount(data: AccountDto): Promise<Account> {
+    async findOneAccount(data: AccountDto): Promise<Data<Account>> {
         try {
-            return await this.account.findOne(data)
+            const AccountData = new Data<Account>();
+            const account = await this.account.findOne(data);
+            return AccountData.setData(account);
         } catch (e) {
             throw new RpcException({ code: Status.normalERROR, type: Type.normalErr, message: JSON.stringify(e) });
         }
     }
 
-    async updateOneAccount(data: AccountDto) {
+    async updateOneAccount(data: AccountDto): Promise<Data<AccountDto>> {
         try {
             const { id, ...params } = data;
-            return await this.account.update({ id }, params);
+            const AccountData = new Data<AccountDto>();
+            await this.account.update({ id }, params);
+            return AccountData.setData(data);
         } catch (e) {
             throw new RpcException({ code: Status.normalERROR, type: Status.normalERROR, message: JSON.stringify(e) })
         }

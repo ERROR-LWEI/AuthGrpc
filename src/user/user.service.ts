@@ -8,6 +8,7 @@ import { Status, Type } from '../enumeration/status'
 import { RpcException } from '@nestjs/microservices';
 import { Page } from '../vo/Page.vo';
 import { List } from '../vo/List.vo';
+import { Data } from '../vo/Data.vo';
 
 @Injectable()
 export class UserService {

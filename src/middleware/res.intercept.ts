@@ -27,8 +27,7 @@ export default class ResIntercept<T> implements NestInterceptor<T, Response<T>> 
 
     intercept(context: ExecutionContext, next: CallHandler): Observable<Response<T>> {
         return next.handle().pipe(map((data) => {
-            return new Response<T>(Status.normalOk, Type.normalOk, this.msg, JSON.stringify(data));
-            //return { code: Status.normalOk, type: Type.normalOk, message: this.msg, data: JSON.stringify(data) }
+            return { code: Status.normalOk, type: Type.normalOk, message: this.msg, data }
         }));
     }
 }
