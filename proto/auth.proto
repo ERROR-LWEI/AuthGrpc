@@ -1,4 +1,3 @@
-import "google/protobuf/any.proto";
 syntax = "proto3";
 
 package auth;
@@ -45,10 +44,16 @@ message ResponseMeta {
 }
 
 message ResponseAccount {
+    message Data {
+        optional Account data = 1;
+        repeated Account list = 2;
+        optional Page page = 3;
+    }
+
     int32 code = 1;
     string type = 2;
     string message = 3;
-    optional string data = 4;
+    optional Data data = 4;
 }
 
 message User {
@@ -66,10 +71,15 @@ message User {
 }
 
 message ResponseUser {
+    message Data {
+        optional User data = 1;
+        repeated User list = 2;
+        optional Page page = 3;
+    }
     int32 code = 1;
     string type = 2;
     string message = 3;
-    optional string data = 4;
+    optional Data data = 4;
 }
 
 // 账号信息
@@ -82,4 +92,10 @@ message Account {
     optional string del = 6;
     optional string terrace = 7;
     optional string terraceId = 8;
+}
+
+message Page {
+    int32 page = 1;
+    int32 pageSize = 2;
+    int32 count = 3;
 }
